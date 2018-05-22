@@ -1,0 +1,35 @@
+<head>
+    <title>Matching Books</title>
+    <style>
+    table, th, td {
+        border: 1px solid black;
+    }
+    </style>
+</head>
+<p> Matching books for {{ request.type }}:{{ request.input }}. </p>
+<table>
+    <thead>
+        <!-- Empty Column for Thumbnail Image -->
+        <th></th> 
+        <th>Title</th>
+        <th>Author</th>
+        <th>Page Count</th>
+        <th>Average Score</th>
+    <thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td><img src={{ item.thumbnail }} alt="Thumbnail"></td>
+            <td>{{ item.title      if item.title      else ""}}</td>
+            <td>{{ item.author     if item.author     else "" }}</td>
+            <td>{{ item.page_count if item.page_count else "" }}</td>
+            <td>{{ item.avg_score  if item.avg_score  else ""}}</td>
+            <td>
+                <form action="/add/{{ loop.index - 1 }}" method="POST">
+                    <input type="submit" value="Add">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </body>
+</table>

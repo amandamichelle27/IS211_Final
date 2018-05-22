@@ -1,0 +1,52 @@
+<head>
+    <title>Saved Books</title>
+    <style>
+    table, th, td {
+        border: 1px solid black;
+    }
+    </style>
+</head>
+<p> Saved books for {{ current_user.username }}. </p>
+<table display="table-header-group" style="table-layout:fixed">
+    <thead>
+        <!-- Empty Column for Thumbnail Image -->
+        <th></th> 
+        <th>Title</th>
+        <th>Author</th>
+        <th>Page Count</th>
+        <th>Average Score</th>
+    <thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td><img src={{ item.thumbnail }} alt="Thumbnail"></td>
+            <td>{{ item.title      if item.title      else ""}}</td>
+            <td>{{ item.author     if item.author     else "" }}</td>
+            <td>{{ item.page_count if item.page_count else "" }}</td>
+            <td>{{ item.avg_score  if item.avg_score  else ""}}</td>
+            <td>
+                <form action="/delete/{{ item.id }}" method="POST">
+                    <input type="submit" value="Remove">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </body>
+</table>
+
+<p> Search for more books.</p>
+
+<form action="/search" method="POST">
+    <select name="type">
+        <option value="title">Title</option>
+        <option value="isbn" >ISBN </option>
+    </select>
+    <input type="text" name="input" value="Input"
+           onfocus="if (this.value=='Input') this.value='';">
+    <input type="submit">
+</form>
+
+
+<form action="/logout" method="POST">
+    <input type="submit" value="Logout">
+</form>
